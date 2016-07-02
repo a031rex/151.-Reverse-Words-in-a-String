@@ -13,6 +13,8 @@ For C programmers: Try to solve it in-place in O(1) space.
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "ctype.h"
+
 
 
 char *trimwhitespace(char *str)
@@ -33,6 +35,14 @@ char *trimwhitespace(char *str)
 	*(end+1) = 0;
 
 	return str;
+}
+
+void strip_extra_spaces(char* str) {
+  int i,x;
+  for(i=x=1; str[i]; ++i)
+    if(!isspace(str[i]) || (i>0 && !isspace(str[i-1])))
+      str[x++] = str[i];
+  str[x] = '\0';
 }
 
 
@@ -58,6 +68,7 @@ void reverseWords(char *s) {
 	strncpy(result, s + pos, s_size-pos);
 	result[s_size] = '\0';
 	memcpy(s,trimwhitespace(result),s_size);
+	strip_extra_spaces(s);
 	
 	printf("%s\n",s);
 	
@@ -65,7 +76,7 @@ void reverseWords(char *s) {
 
 void main()
 {
-	char s[] ="Rex  Amy";
+	char s[] ="   Rex      Amy";
 	reverseWords(s);
 }
 
